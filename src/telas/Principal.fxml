@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<fx:root fx:id="apPrincipal" prefHeight="500.0" prefWidth="500.0" type="AnchorPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="telas.PrincipalController">
+   <children>
+      <Button fx:id="btnEnviar" layoutX="14.0" layoutY="58.0" mnemonicParsing="false" text="Enviar" />
+      <TextField fx:id="tfMsg" layoutX="72.0" layoutY="58.0" />
+      <AnchorPane layoutX="14.0" layoutY="83.0">
+         <children>
+            <ScrollPane>
+               <content>
+                  <TextArea fx:id="teaMsgs" prefHeight="200.0" prefWidth="223.0" />
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+   </children>
+</fx:root>
