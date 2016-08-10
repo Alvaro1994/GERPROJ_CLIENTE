@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<SplitPane fx:id="spMenu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="598.0" prefWidth="644.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="telas.RestauranteController">
+  <items>
+    <AnchorPane fx:id="apCadMenu" minHeight="0.0" minWidth="0.0" prefHeight="230.0" prefWidth="642.0">
+         <children>
+            <Label fx:id="lbTitulo" layoutX="62.0" layoutY="54.0" prefHeight="46.0" prefWidth="545.0" text="Seja Bem - Vindo ao Restaurante Mais Sabor" textAlignment="CENTER">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+            <Label layoutX="147.0" layoutY="243.0" prefHeight="35.0" prefWidth="62.0" text="Mesa:">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbTitulo1" layoutX="113.0" layoutY="141.0" prefHeight="46.0" prefWidth="456.0" text="Informe o número de sua mesa para atendimento" textAlignment="CENTER">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="cbMesas" layoutX="270.0" layoutY="248.0" prefHeight="23.0" prefWidth="192.0" />
+            <Button layoutX="183.0" layoutY="335.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Entrar" />
+            <Button layoutX="354.0" layoutY="335.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="127.0" text="Cancelar" />
+         </children></AnchorPane>
+  </items>
+</SplitPane>

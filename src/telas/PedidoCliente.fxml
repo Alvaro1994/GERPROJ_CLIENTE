@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anpPrincipal" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="telas.PedidoClienteController">
+   <children>
+      <SplitPane fx:id="spMenu" dividerPositions="0.45226130653266333" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="598.0" prefWidth="644.0">
+        <items>
+          <AnchorPane fx:id="apCadMenu" minHeight="0.0" minWidth="0.0" prefHeight="230.0" prefWidth="642.0">
+               <children>
+                  <SplitPane fx:id="spPrincipal" dividerPositions="0.471875" prefHeight="267.0" prefWidth="642.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <Label fx:id="lbTitulo" layoutX="88.0" layoutY="6.0" prefHeight="29.0" prefWidth="84.0" text="Menu" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labTipo" layoutX="26.0" layoutY="66.0" text="Tipo">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox fx:id="cbTipo" layoutX="66.0" layoutY="64.0" prefWidth="150.0" />
+                              <ScrollPane fx:id="spProdutos" layoutX="15.0" layoutY="106.0" prefHeight="153.0" prefWidth="279.0">
+                                <content>
+                                  <AnchorPane fx:id="anpItens" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <TableView fx:id="tvItens" layoutX="-2.0" prefHeight="153.0" prefWidth="267.0">
+                                            <columns>
+                                              <TableColumn fx:id="tcNomeItens" prefWidth="266.0" text="Nome" />
+                                            </columns>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </ScrollPane>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane fx:id="anpDescricao" minHeight="0.0" minWidth="0.0" prefHeight="265.0" prefWidth="384.0">
+                           <children>
+                              <Label fx:id="labTituloDescricao" layoutX="127.0" layoutY="14.0" text="Descrição">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labNome" layoutX="12.0" layoutY="53.0" text="Nome" />
+                              <Label fx:id="labValor" layoutX="12.0" layoutY="83.0" text="Valor" />
+                              <Label fx:id="labDescricao" layoutX="12.0" layoutY="141.0" text="Descrição" />
+                              <TextField fx:id="tfNome" layoutX="75.0" layoutY="49.0" />
+                              <TextField fx:id="tfValor" layoutX="75.0" layoutY="79.0" />
+                              <TextArea fx:id="teaDescricao" layoutX="76.0" layoutY="141.0" prefHeight="110.0" prefWidth="229.0" />
+                              <Button fx:id="btnIncluirItem" layoutX="235.0" layoutY="76.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="81.0" text="Incluir" />
+                              <Label fx:id="labQtd" layoutX="12.0" layoutY="116.0" text="Quantidade" />
+                              <TextField fx:id="tfQtd" layoutX="75.0" layoutY="112.0" />
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane fx:id="apTabela" minHeight="0.0" minWidth="0.0" prefHeight="316.0" prefWidth="642.0">
+               <children>
+                  <ScrollPane fx:id="spTabela" layoutX="7.0" layoutY="39.0" prefHeight="201.0" prefWidth="629.0">
+                    <content>
+                      <AnchorPane fx:id="anpTabela" minHeight="0.0" minWidth="0.0" prefHeight="188.0" prefWidth="628.0">
+                           <children>
+                              <TableView fx:id="tvPedido" layoutX="-2.0" layoutY="-1.0" prefHeight="231.0" prefWidth="633.0">
+                                <columns>
+                                  <TableColumn fx:id="tcStatus" prefWidth="123.0" text="Status" />
+                                    <TableColumn fx:id="tcNome" prefWidth="217.0" text="Nome" />
+                                    <TableColumn fx:id="tcValor" prefWidth="81.0" text="Valor" />
+                                    <TableColumn fx:id="tcQuantidade" prefWidth="99.0" text="Quantidade" />
+                                    <TableColumn fx:id="tcSubTotal" maxWidth="212.0" minWidth="99.0" prefWidth="99.0" text="Subtotal" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+                  <Label fx:id="labPedido" layoutX="279.0" text="Pedido">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+                  <HBox fx:id="hbBotoes" layoutX="56.0" layoutY="260.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="btnRealizarPedido" mnemonicParsing="false" prefHeight="20.0" prefWidth="122.0" text="Realizar Pedido" />
+                        <Button fx:id="btnExcluirItem" mnemonicParsing="false" prefHeight="20.0" prefWidth="122.0" text="Excluir Item" />
+                        <Button fx:id="btnCancelarPedido" mnemonicParsing="false" prefHeight="20.0" prefWidth="122.0" text="Cancelar Pedido" />
+                        <Button fx:id="btnConfirmarMesa" mnemonicParsing="false" text="Confirmar Mesa" />
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
