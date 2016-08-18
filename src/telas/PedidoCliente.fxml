@@ -90,7 +90,7 @@
                         </AnchorPane>
                     </content>
                   </ScrollPane>
-                  <Label fx:id="labPedido" layoutX="279.0" text="Pedido">
+                  <Label fx:id="labPedido" layoutX="14.0" text="Pedido">
                      <font>
                         <Font size="27.0" />
                      </font>

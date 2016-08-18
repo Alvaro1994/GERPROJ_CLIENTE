@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import telas.PrincipalController;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 
 
 public class Main extends Application {
@@ -17,6 +18,7 @@ public class Main extends Application {
 			Parent root = loader.load();
 			PrincipalController ctrl = loader.getController();
 			Scene scene = new Scene(root);
+			primaryStage.getIcons().add(new Image("/imagens/cliente-icone.png"));
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
 			//Titulo da Janela

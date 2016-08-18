@@ -99,6 +99,33 @@ public class ProdutoDAO {
 		
 		return produtos;
 	}
+	public Produto pesquisarProduto(int idProduto) {
+		this.con = FactoryConnection.getConnection();
+		this.sql = "SELECT nome,descricao,tipo,preco,idProduto FROM restaurante.produto WHERE idProduto = ?";
+		Produto p = new Produto();
+		try {
+			this.stm = con.prepareStatement(sql);
+			this.stm.setInt(1, idProduto);
+			this.rs = this.stm.executeQuery();
+			while(rs.next()){
+				
+				p.setNome(rs.getString(1));
+				p.setDescricao(rs.getString(2));
+				p.setTipo(rs.getString(3));
+				p.setPreco(rs.getDouble(4));
+				p.setIdProduto(rs.getInt(5));
+				System.out.println("Buscou p nome: "+p.getNome()+" p descrição "+p.getDescricao());
+			}
+			stm.close();
+			rs.close();
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return p;
+	}
 	public void alterarProduto(Produto produtoAntigo, Produto produtoNovo) {
 		this.con = FactoryConnection.getConnection();
 		this.sql = "UPDATE restaurante.produto SET nome= ?, descricao= ?, tipo= ?, preco= ? WHERE idProduto= ? ";

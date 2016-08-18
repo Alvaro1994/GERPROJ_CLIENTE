@@ -50,7 +50,8 @@ public class PrincipalController implements Initializable {
 		PedidoClienteController ctrl = load.getController();
 		ctrl.setMesaAtual(Integer.parseInt(btn.getId()));
 		ctrl.setGarcomAtual(cbGarcom.getSelectionModel().getSelectedItem());
-		saida.println(Integer.parseInt(btn.getId()));
+		saida.println(Integer.parseInt(btn.getId())-1+" confirmar");
+		ctrl.setMensagem(saida);
 		this.apPrincipal.getChildren().add(janela);
 
 	}

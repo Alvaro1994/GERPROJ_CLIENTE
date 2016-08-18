@@ -1,6 +1,7 @@
 package telas;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.SplitPane;
@@ -122,8 +125,12 @@ public class PedidoClienteController implements Initializable {
 	private ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
 	private Garcom garcomAtual = new Garcom();
 	private Pedido itemSelecionado;
+	private PrintStream mensagem;
+	private boolean mesaCorfirmada = false;
+
 	public void cancelarPeido() throws IOException {
 		this.anpPrincipal.getChildren().removeAll(this.anpPrincipal.getChildren());
+		this.mensagem.println(this.getMesaAtual() - 1 + " cancelarPedido");
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("/telas/Principal.fxml"));
 		Parent root = loader.load();
@@ -147,22 +154,29 @@ public class PedidoClienteController implements Initializable {
 	public void incluirItem() {
 		Pedido ped = new Pedido();
 		ped.setProduto(produtoSelecionado);
-		int qtd = Integer.parseInt(tfQtd.getText());
-		ped.setQuantidade(qtd);
-		ped.setTotal(qtd * produtoSelecionado.getPreco());
-		ped.setStatus("Aguardando");
-		ped.setNomeProduto(produtoSelecionado.getNome());
-		ped.setValorProduto(produtoSelecionado.getPreco());
-		pedidos.add(ped);
-		tvPedido.getItems().removeAll(pedidos);
-		tvPedido.setItems(FXCollections.observableArrayList(pedidos));
-		tfNome.clear();
-		tfQtd.clear();
-		tfValor.clear();
-		teaDescricao.clear();
-		//idPedido
-		pedidoDAO.inseirItens(2, produtoSelecionado.getIdProduto(), qtd, ped.getTotal());
-		
+		if (mesaCorfirmada && produtoSelecionado != null) {
+			int qtd = Integer.parseInt(tfQtd.getText());
+			ped.setQuantidade(qtd);
+			ped.setTotal(qtd * produtoSelecionado.getPreco());
+			ped.setStatus("Aguardando");
+			ped.setNomeProduto(produtoSelecionado.getNome());
+			ped.setValorProduto(produtoSelecionado.getPreco());
+			pedidos.add(ped);
+			tvPedido.getItems().removeAll(pedidos);
+			tvPedido.setItems(FXCollections.observableArrayList(pedidos));
+			tfNome.clear();
+			tfQtd.clear();
+			tfValor.clear();
+			teaDescricao.clear();
+			// idPedido
+			pedidoDAO.inseirItens(idPedidoAtual, produtoSelecionado.getIdProduto(), qtd, ped.getTotal());
+		}else {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Atenção");
+			alert.setContentText("Confirme a mesa e/ou selecione um item");
+			alert.show();
+		}
+
 	}
 
 	public void confirmarMesa() {
@@ -170,12 +184,11 @@ public class PedidoClienteController implements Initializable {
 
 		} else {
 
-			labPedido.setText("Pedidos para mesa " + this.getMesaAtual());
-			System.out.println("Garçom Atual "+ garcomAtual.getNome());
-			pedidoDAO.criarPedido(this.getMesaAtual(),this.garcomAtual.getIdGarcom());
+			mesaCorfirmada = true;
+			pedidoDAO.criarPedido(this.getMesaAtual(), this.garcomAtual.getIdGarcom());
 			this.idPedidoAtual = pedidoDAO.pesquisarPedido(this.getMesaAtual()).getIdPedido();
-			
-			System.out.println("Pedido atual " + this.idPedidoAtual + " paara Mesa " + this.mesaAtual);
+			labPedido.setText("Pedido atual " + this.idPedidoAtual + " para Mesa " + this.mesaAtual + " Garçom "
+					+ garcomAtual.getNome());
 			btnConfirmarMesa.setText("Alterar Mesa");
 		}
 	}
@@ -187,19 +200,25 @@ public class PedidoClienteController implements Initializable {
 	}
 
 	public void realizarPedido() {
-		for (Pedido pedido : pedidos) {
-			pedidoDAO.inseirItens(this.idPedidoAtual, pedido.getProduto().getIdProduto(), pedido.getQuantidade(),
-					pedido.getTotal());
-		}
+		// this.mensagem.println("Pedido "+this.idPedidoAtual+" na mesa
+		// "+this.mesaAtual);
+		this.mensagem.println(this.mesaAtual);
 	}
+
 	public void excluirItem() {
 		tvPedido.getItems().removeAll(pedidos);
 		pedidos.remove(itemSelecionado);
 		tvPedido.setItems(FXCollections.observableArrayList(pedidos));
-		int idItem = pedidoDAO.selecionarIdItem(this.idPedidoAtual, itemSelecionado.getNomeProduto(), itemSelecionado.getQuantidade());
-		pedidoDAO.excluirItem(idItem);
-
+		// int idItem = pedidoDAO.selecionarIdItem(this.idPedidoAtual,
+		// itemSelecionado.getNomeProduto(), itemSelecionado.getQuantidade());
+		System.out.println("Pedido " + idPedidoAtual + " idProduto " + itemSelecionado.getProduto().getIdProduto()
+				+ " quantidade " + itemSelecionado.getQuantidade());
+		pedidoDAO.excluirItem(idPedidoAtual, itemSelecionado.getProduto().getIdProduto(),
+				itemSelecionado.getQuantidade());
+		System.out.println("Pedido " + idPedidoAtual + " idProduto " + itemSelecionado.getProduto().getIdProduto()
+				+ " quantidade " + itemSelecionado.getQuantidade());
 	}
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		carregarTabelas();
@@ -213,6 +232,7 @@ public class PedidoClienteController implements Initializable {
 					tfNome.setText(produtoSelecionado.getNome());
 					tfValor.setText("" + produtoSelecionado.getPreco());
 					teaDescricao.setText(produtoSelecionado.getDescricao());
+					btnIncluirItem.setDisable(false);
 				}
 			}
 		});
@@ -221,10 +241,11 @@ public class PedidoClienteController implements Initializable {
 			@Override
 			public void changed(ObservableValue<? extends Pedido> arg0, Pedido pedidoAntigo, Pedido pedidoNovo) {
 				if (pedidoNovo != null) {
-					itemSelecionado =  pedidoNovo;
+					itemSelecionado = pedidoNovo;
 				}
 			}
 		});
+		btnIncluirItem.setDisable(true);
 		cbTipo.setItems(FXCollections.observableArrayList("Bebida", "Pratos", "Tira Gosto"));
 		cbTipo.getSelectionModel().selectFirst();
 		cbTipo.setOnMouseClicked(event -> selecionarTipo());
@@ -232,6 +253,7 @@ public class PedidoClienteController implements Initializable {
 		btnConfirmarMesa.setOnMouseClicked(event -> confirmarMesa());
 		btnIncluirItem.setOnMouseClicked(event -> incluirItem());
 		btnRealizarPedido.setOnMouseClicked(event -> realizarPedido());
+
 		btnCancelarPedido.setOnMouseClicked(event -> {
 			try {
 				cancelarPeido();
@@ -257,6 +279,14 @@ public class PedidoClienteController implements Initializable {
 
 	public void setGarcomAtual(Garcom garcomAtual) {
 		this.garcomAtual = garcomAtual;
+	}
+
+	public PrintStream getMensagem() {
+		return mensagem;
+	}
+
+	public void setMensagem(PrintStream mensagem) {
+		this.mensagem = mensagem;
 	}
 
 }
